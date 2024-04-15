@@ -46,12 +46,11 @@ Détails Techniques des Tests
 
 ## 1. Test de l'affichage des marques :
 
-Type de Test : Test unitaire
 Ce test vérifie que la méthode responsable de récupérer les marques des voitures de l'inventaire renvoie une liste.
 
 ### Implémentation :
 
-Utiliser BrandFactory pour créer plusieurs entrées de voitures avec des marques dupliquées.
+Utiliser Brand::factory pour créer plusieurs entrées de voitures.
 Appeler la méthode test_can_get_all_brands() pour récupérer les marques.
 
  ````
@@ -64,15 +63,15 @@ Appeler la méthode test_can_get_all_brands() pour récupérer les marques.
     }
  ````
 
-## 2. Test de suppression d'une voiture :
-   Type de Test : Test d'intégration
-   Ce test assure que la suppression d'une voiture via l'interface de l'application supprime effectivement l'entrée dans la base de données.
+## 2. Test de modification d'une marque :
+
+   Ce test assure que la modification d'une marque via l'interface de l'application fonctionne correctement.
    
    ### Implémentation :
 
-   Créer une entrée de voiture via CarFactory.
-   Exécuter la méthode deleteCar() sur cette entrée.
-   Vérifier via une assertion que la voiture n'est plus présente dans la base de données.
+   Créer une entrée de marque via Brand::Factory.
+   Exécuter la méthode test_can_update_brand() sur cette entrée.
+   Vérifier via une assertion de la réponse que la marque est modifiée dans la BDD.
 ````
     public function test_can_update_brand(): void
     {
