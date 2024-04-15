@@ -16,7 +16,7 @@ class CarmodelController extends Controller
     {
         $data = $request->validate([
             'name' => ['required'],
-            'brand_id' => ['required', 'exists:brands'],
+            'brand_id' => ['required', 'exists:brands,id'],
         ]);
 
         return Carmodel::create($data);
@@ -31,7 +31,7 @@ class CarmodelController extends Controller
     {
         $data = $request->validate([
             'name' => ['required'],
-            'brand_id' => ['required', 'exists:brands'],
+            'brand_id' => ['required', 'exists:brands,id'],
         ]);
 
         $carmodel->update($data);
