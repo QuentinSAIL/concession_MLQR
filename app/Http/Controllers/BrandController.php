@@ -15,7 +15,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => ['required'],
+            'name' => ['required'],
         ]);
 
         return Brand::create($data);
@@ -29,7 +29,7 @@ class BrandController extends Controller
     public function update(Request $request, Brand $brand)
     {
         $data = $request->validate([
-            'title' => ['required'],
+            'name' => ['required'],
         ]);
 
         $brand->update($data);

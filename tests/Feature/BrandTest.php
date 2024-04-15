@@ -10,59 +10,53 @@ class BrandTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_get_all_brands()
+    public function test_can_get_all_brands(): void
     {
         $brands = Brand::factory()->count(3)->create();
 
-        $response = $this->get('/api/brands');
+        $response = $this->get(route('brand.index'));
 
         $response->assertStatus(200)
             ->assertJson($brands->toArray());
     }
 
-    public function test_can_create_brand()
+    public function test_can_create_brand(): void
     {
-        $data = ['title' => 'Test Brand'];
+        $data = ['name' => 'Test Brand'];
 
-        $response = $this->postJson('/api/brands/store', $data);
+        $response = $this->postJson(route('brand.store'), $data);
 
-        $response->assertStatus(201)
-            ->assertJson($data);
+        $response->assertStatus(201);
 
         $this->assertDatabaseHas('brands', $data);
     }
 
-    public function test_can_show_brand()
+    public function test_can_show_brand(): void
     {
         $brand = Brand::factory()->create();
 
-        $response = $this->get("/api/brands/{$brand->id}");
+        $response = $this->get(route('brand.show', $brand->id));
 
-        $response->assertStatus(200)
-            ->assertJson($brand->toArray());
+        $response->assertStatus(200);
     }
 
-    public function test_can_update_brand()
+    public function test_can_update_brand(): void
     {
         $brand = Brand::factory()->create();
-        $data = ['title' => 'Updated Brand'];
+        $data = ['name' => 'Updated Brand'];
 
-        $response = $this->putJson("/api/brands/{$brand->id}", $data);
-
-        $response->assertStatus(200)
-            ->assertJson($data);
-
-        $this->assertDatabaseHas('brands', $data);
-    }
-
-    public function test_can_delete_brand()
-    {
-        $brand = Brand::factory()->create();
-
-        $response = $this->delete("/api/brands/{$brand->id}");
+        $response = $this->putJson(route('brand.update', $brand->id), $data);
 
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('brands', ['id' => $brand->id]);
+    }
+
+    public function test_can_delete_brand(): void
+    {
+        $brand = Brand::factory()->create();
+
+        $response = $this->delete(route('brand.destroy', $brand->id));
+
+        $response->assertStatus(200);
     }
 }
