@@ -31,6 +31,15 @@ class BrandTest extends TestCase
         $this->assertDatabaseHas('brands', $data);
     }
 
+    public function test_cannot_create_brand_without_name(): void
+    {
+        $data = ['name' => ''];
+
+        $response = $this->postJson(route('brand.store'), $data);
+
+        $response->assertStatus(422);
+    }
+
     public function test_can_show_brand(): void
     {
         $brand = Brand::factory()->create();
@@ -49,6 +58,16 @@ class BrandTest extends TestCase
 
         $response->assertStatus(200);
 
+    }
+
+    public function test_cannot_update_brand_without_name(): void
+    {
+        $brand = Brand::factory()->create();
+        $data = ['name' => ''];
+
+        $response = $this->putJson(route('brand.update', $brand->id), $data);
+
+        $response->assertStatus(422);
     }
 
     public function test_can_delete_brand(): void
