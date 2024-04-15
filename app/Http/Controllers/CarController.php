@@ -15,7 +15,7 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'carmodel_id' => ['required', 'exists:carmodels'],
+            'carmodel_id' => ['required', 'exists:carmodels,id'],
         ]);
 
         return Car::create($data);
@@ -29,7 +29,7 @@ class CarController extends Controller
     public function update(Request $request, Car $car)
     {
         $data = $request->validate([
-            'carmodel_id' => ['required', 'exists:carmodels'],
+            'carmodel_id' => ['required', 'exists:carmodels,id'],
         ]);
 
         $car->update($data);
