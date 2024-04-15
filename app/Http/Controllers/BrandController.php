@@ -2,17 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Brand;
+use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
     public function index()
     {
-        $brands = Brand::all();
-        return response()->json([
-            'success' => true,
-            'data' => $brands
-        ], 200);
+        return Brand::all();
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => ['required'],
+        ]);
+
+        return Brand::create($data);
+    }
+
+    public function show(Brand $brand)
+    {
+        return $brand;
+    }
+
+    public function update(Request $request, Brand $brand)
+    {
+        $data = $request->validate([
+            'title' => ['required'],
+        ]);
+
+        $brand->update($data);
+
+        return $brand;
+    }
+
+    public function destroy(Brand $brand)
+    {
+        $brand->delete();
+
+        return response()->json();
     }
 }
