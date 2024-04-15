@@ -1,66 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Documentation de Test Technique pour le Projet de Concession Automobile
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Mise en Contexte
 
-## About Laravel
+Ce projet est une application Laravel conçue pour gérer une concession automobile.
+Cette application s'adresse principalement aux gestionnaires de concessions automobiles qui ont besoin d'un système fiable pour suivre l'inventaire de leurs automobiles en temps réel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Elle offre plusieurs fonctionnalités clés :
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Gestion d’un inventaire de voitures
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   Affichage de la liste des marques
+-   Affichage d'une seule marque
+-   modification d'une marque
+-   supression d'une marque
+-   création d'une marque
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   Affichage de la liste des modeles
+-   Affichage d'un seul modele
+-   modification d'un modele
+-   supression d'un modele
+-   création d'un modele
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   rattacher une voiture à un modele
+-   supprimer une voiture
+-   lister toutes les voitures
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Priorisation des Tests
 
-### Premium Partners
+Les tests sont priorisés selon l'importance des fonctionnalités pour les utilisateurs finaux et la stabilité de l'application. Les fonctionnalités critiques telles que l'affichage des listes de voitures et de marques ainsi que la suppression de voitures seront testées en premier. Cela est dû à leur impact direct sur l'expérience utilisateur et l'intégrité des données.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Choix Technologiques
 
-## Contributing
+_PHPUnit_ : Utilisé pour les tests unitaires et d'intégration, car il est nativement supporté par Laravel. Il permet une intégration facile avec les migrations et les factories de la base de données, facilitant la réplication des scénarios de test.
+Détails Techniques des Tests
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 1. Test de l'affichage des marques :
 
-## Code of Conduct
+Type de Test : Test unitaire
+Ce test vérifie que la méthode responsable de récupérer les marques des voitures de l'inventaire renvoie une liste.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Implémentation :
 
-## Security Vulnerabilities
+Utiliser BrandFactory pour créer plusieurs entrées de voitures avec des marques dupliquées.
+Appeler la méthode test_can_get_all_brands() pour récupérer les marques.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ ````
+ public function test_can_get_all_brands(): void
+    {
+        $brands = Brand::factory()->count(3)->create();
+        $response = $this->get(route('brand.index'));
+        $response->assertStatus(200)
+            ->assertJson($brands->toArray());
+    }
+ ````
 
-## License
+## 2. Test de suppression d'une voiture :
+   Type de Test : Test d'intégration
+   Ce test assure que la suppression d'une voiture via l'interface de l'application supprime effectivement l'entrée dans la base de données.
+   
+   ### Implémentation :
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   Créer une entrée de voiture via CarFactory.
+   Exécuter la méthode deleteCar() sur cette entrée.
+   Vérifier via une assertion que la voiture n'est plus présente dans la base de données.
+````
+    public function test_can_update_brand(): void
+    {
+        $brand = Brand::factory()->create();
+        $data = ['name' => 'Updated Brand'];
+
+        $response = $this->putJson(route('brand.update', $brand->id), $data);
+
+        $response->assertStatus(200);
+
+    }
+````
+
+#   Conclusion
+   Ces tests sont conçus pour garantir que les fonctionnalités clés de l'application fonctionnent comme attendu et maintiennent l'intégrité des données au sein de l'inventaire. L'approche choisie permet d'assurer une qualité constante et de détecter les régressions ou anomalies avant la mise en production.
