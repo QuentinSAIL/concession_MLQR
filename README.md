@@ -1,38 +1,42 @@
-# Documentation de Test Technique pour le Projet de Concession Automobile
+# Documentation Technique Détaillée pour le Projet de Concession Automobile
 
-## Mise en Contexte
+## Introduction
 
-Ce projet est une application Laravel conçue pour gérer une concession automobile.
-Cette application s'adresse principalement aux gestionnaires de concessions automobiles qui ont besoin d'un système fiable pour suivre l'inventaire de leurs automobiles en temps réel.
+Le présent document fournit une documentation technique détaillée pour une application Laravel destinée à la gestion d'une concession automobile. L'application est conçue pour les gestionnaires de concessions souhaitant une solution robuste pour le suivi en temps réel de leur inventaire automobile.
 
-Elle offre plusieurs fonctionnalités clés :
+## Objectifs du Projet
 
-## Gestion d’un inventaire de voitures
+Cette application vise à fournir une interface utilisateur intuitive et une base de données fiable pour gérer efficacement les stocks de véhicules, les marques, et les modèles de voitures. Elle doit permettre une gestion facile et précise, minimisant les erreurs et les doublons dans les entrées de données.
 
--   Affichage de la liste des marques
--   Affichage d'une seule marque
--   modification d'une marque
--   supression d'une marque
--   création d'une marque
+## Fonctionnalités Principales
 
----
+### Gestion d’un Inventaire de Voitures
 
--   Affichage de la liste des modeles
--   Affichage d'un seul modele
--   modification d'un modele
--   supression d'un modele
--   création d'un modele
+L'application offre une série de fonctionnalités destinées à faciliter la gestion de l'inventaire de véhicules :
 
----
+#### Gestion des Marques
 
--   rattacher une voiture à un modele
--   supprimer une voiture
--   lister toutes les voitures
+- **Affichage de la liste des marques** : Permet aux utilisateurs de voir toutes les marques disponibles dans l'inventaire.
+- **Affichage d'une seule marque** : Permet aux utilisateurs de consulter les détails d'une marque spécifique.
+- **Création d'une marque** : Offre une interface pour ajouter de nouvelles marques à l'inventaire.
+- **Modification d'une marque** : Permet de mettre à jour les informations d'une marque existante.
+- **Suppression d'une marque** : Permet de retirer une marque de l'inventaire, après confirmation.
 
----
+#### Gestion des Modèles
+
+- **Affichage de la liste des modèles** : Affiche tous les modèles de voitures associés à une marque spécifique.
+- **Affichage d'un seul modèle** : Affiche les détails d'un modèle particulier.
+- **Création d'un modèle** : Interface pour ajouter de nouveaux modèles dans la base de données.
+- **Modification d'un modèle** : Mise à jour des informations relatives à un modèle spécifique.
+- **Suppression d'un modèle** : Supprime un modèle de la base de données après une vérification appropriée.
+
+#### Gestion des Voitures
+
+- **Rattachement d'une voiture à un modèle** : Associe une voiture nouvellement entrée ou existante à un modèle spécifique.
+- **Suppression d'une voiture** : Permet de supprimer une voiture de l'inventaire.
+- **Liste de toutes les voitures** : Affiche toutes les voitures présentes dans l'inventaire, avec des options de filtrage et de tri.
 
 ## Priorisation des Tests
-
 Les tests sont priorisés selon l'importance des fonctionnalités pour les utilisateurs finaux et la stabilité de l'application. Les fonctionnalités critiques telles que l'affichage des listes de voitures et de marques ainsi que la suppression de voitures seront testées en premier. Cela est dû à leur impact direct sur l'expérience utilisateur et l'intégrité des données.
 
 ### Choix Technologiques
