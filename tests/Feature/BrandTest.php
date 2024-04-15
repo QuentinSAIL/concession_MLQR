@@ -2,23 +2,67 @@
 
 namespace Tests\Feature;
 
+use App\Models\Brand;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class BrandTest extends TestCase
 {
-    /**
-     * Test the BrandController@index
-     */
-    public function testBrandIndex()
+    use RefreshDatabase;
+
+    public function test_can_get_all_brands()
     {
-        $response = $this->getJson('/api/brands');
+        $brands = Brand::factory()->count(3)->create();
+
+        $response = $this->get('/api/brands');
+
+        $response->assertStatus(200)
+            ->assertJson($brands->toArray());
+    }
+
+    public function test_can_create_brand()
+    {
+        $data = ['title' => 'Test Brand'];
+
+        $response = $this->postJson('/api/brands/store', $data);
+
+        $response->assertStatus(201)
+            ->assertJson($data);
+
+        $this->assertDatabaseHas('brands', $data);
+    }
+
+    public function test_can_show_brand()
+    {
+        $brand = Brand::factory()->create();
+
+        $response = $this->get("/api/brands/{$brand->id}");
+
+        $response->assertStatus(200)
+            ->assertJson($brand->toArray());
+    }
+
+    public function test_can_update_brand()
+    {
+        $brand = Brand::factory()->create();
+        $data = ['title' => 'Updated Brand'];
+
+        $response = $this->putJson("/api/brands/{$brand->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson($data);
+
+        $this->assertDatabaseHas('brands', $data);
+    }
+
+    public function test_can_delete_brand()
+    {
+        $brand = Brand::factory()->create();
+
+        $response = $this->delete("/api/brands/{$brand->id}");
+
         $response->assertStatus(200);
 
-        $brands = collect($response->json()['data'])->pluck('name')->toArray();
-        $uniqueBrands = array_unique($brands);
-
-        $this->assertEquals(count($brands), count($uniqueBrands), 'Duplicate brand names found.');
+        $this->assertDatabaseMissing('brands', ['id' => $brand->id]);
     }
 }
